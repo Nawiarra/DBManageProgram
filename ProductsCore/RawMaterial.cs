@@ -1,11 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ProductsCore
 {
+    [Serializable]
     public class RawMaterial : Product
     {
         private float width;
@@ -72,6 +75,31 @@ namespace ProductsCore
         public override bool isFurniture()
         {
             return false;
+        }
+
+        public override bool Serialize()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("rawMaterial.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, this);
+
+                return true;
+            }
+        }
+
+        public RawMaterial Deserialize()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("rawMaterial.dat", FileMode.OpenOrCreate))
+            {
+                RawMaterial newRawMaterial = (RawMaterial)formatter.Deserialize(fs);
+
+                return newRawMaterial;
+            }
+
         }
     }
 }
