@@ -44,15 +44,17 @@ namespace ProductsCore
             }
         }
 
-        public Furniture Deserialize()
+        public static List<Furniture> Deserialize()
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
+            List<Furniture> furnitureTable = new List<Furniture>();
+
             using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
             {
-                Furniture newFurniture = (Furniture)formatter.Deserialize(fs);
+                furnitureTable.Add((Furniture)formatter.Deserialize(fs));
 
-                return newFurniture;
+                return furnitureTable;
             }
 
         }

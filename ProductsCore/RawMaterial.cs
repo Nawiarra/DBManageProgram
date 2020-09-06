@@ -89,15 +89,17 @@ namespace ProductsCore
             }
         }
 
-        public RawMaterial Deserialize()
+        public static List<RawMaterial> Deserialize()
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
-            using (FileStream fs = new FileStream("rawMaterial.dat", FileMode.OpenOrCreate))
-            {
-                RawMaterial newRawMaterial = (RawMaterial)formatter.Deserialize(fs);
+            List<RawMaterial> rawMaterialTable = new List<RawMaterial>();
 
-                return newRawMaterial;
+            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
+            {
+                rawMaterialTable.Add((RawMaterial)formatter.Deserialize(fs));
+
+                return rawMaterialTable;
             }
 
         }
