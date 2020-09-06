@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using System.Runtime.Serialization.Formatters.Binary;
 using ProductsCore;
 
 namespace WorkWithDBCore
@@ -40,18 +41,34 @@ namespace WorkWithDBCore
             furnitureTable.Remove(furniture);
         }
 
-        public static void SerializeFurnitureDB()
-        {
-            foreach (Furniture furniture in furnitureTable)
-            {
-                furniture.Serialize();
-            }
-        }
         public static void DeserializeFurnitureDB()
         {
-            furnitureTable = Furniture.Deserialize();
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
+                {
+               
+                    while (fs.Length!= fs.Position)
+                    {
+                        furnitureTable.Add((Furniture)formatter.Deserialize(fs));
+                    }
+
+                }
         }
 
-       
+        public static void SerializeFurnitureDB()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
+            {
+                foreach (Furniture furniture in furnitureTable)
+                {
+                    formatter.Serialize(fs, furniture);
+                }
+            }
+        }
+
+
     }
 }

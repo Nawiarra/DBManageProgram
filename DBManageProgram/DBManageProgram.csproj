@@ -49,5 +49,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProductsCore\ProductsCore.csproj">
+      <Project>{7d4a59e0-e8b2-4449-94a8-50f39a0208c2}</Project>
+      <Name>ProductsCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkWithDB\WorkWithDBCore.csproj">
+      <Project>{d57c83dc-537a-4e16-85f0-1a7b0bf63b1b}</Project>
+      <Name>WorkWithDBCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

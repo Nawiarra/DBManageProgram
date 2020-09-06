@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace ProductsCore
 {
     [Serializable]
-    public abstract class Product
+    public abstract class Product : IComparable
     {
         public string Name { get; protected set; }
 
         public float Price { get; protected set; }
 
-        public abstract bool isFurniture();
+        public abstract int CompareTo(object obj);
 
-        public abstract bool Serialize();
+        public abstract bool isFurniture();
     }
 }

@@ -67,14 +67,21 @@ namespace ProductsCore
             Price = price;
         }
 
-        public static bool operator >(RawMaterial rawMaterial1, RawMaterial rawMaterial2)
+        public override int CompareTo(object obj)
         {
-            return rawMaterial1.Price > rawMaterial2.Price;
+            RawMaterial rawMaterial = obj as RawMaterial;
+
+            if (rawMaterial != null)
+            { 
+                return this.Price.CompareTo(rawMaterial.Price); 
+            }
+                
+            else
+            {
+                throw new Exception("can't compare");
+            }
         }
-        public static bool operator <(RawMaterial rawMaterial1, RawMaterial rawMaterial2)
-        {
-            return rawMaterial1.Price < rawMaterial2.Price;
-        }
+
         public override string ToString()
         {
             return $"{Name} that is {Width}x{Height}x{Thickness}, that cost {Price}";
@@ -85,31 +92,5 @@ namespace ProductsCore
             return false;
         }
 
-        public override bool Serialize()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            using (FileStream fs = new FileStream("rawMaterial.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, this);
-
-                return true;
-            }
-        }
-
-        public static List<RawMaterial> Deserialize()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            List<RawMaterial> rawMaterialTable = new List<RawMaterial>();
-
-            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
-            {
-                rawMaterialTable.Add((RawMaterial)formatter.Deserialize(fs));
-
-                return rawMaterialTable;
-            }
-
-        }
     }
 }

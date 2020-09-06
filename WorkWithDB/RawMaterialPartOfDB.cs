@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 using ProductsCore;
 
 namespace WorkWithDB
@@ -39,17 +41,31 @@ namespace WorkWithDB
             rawMaterialTable.Remove(rawMaterial);
         }
 
-        public static void SerializeRawMaterialDB()
+        public static void DeserializeFurnitureDB()
         {
-            foreach (RawMaterial rawMaterial in rawMaterialTable)
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
             {
-                rawMaterial.Serialize();
+                while (fs.Length != fs.Position)
+                {
+                    rawMaterialTable.Add((RawMaterial)formatter.Deserialize(fs));
+                }
+
             }
         }
 
-        public static void DeserializeRawMaterialDB()
+        public static void SerializeFurnitureDB()
         {
-            rawMaterialTable = RawMaterial.Deserialize();
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
+            {
+                foreach (RawMaterial rawMaterial in rawMaterialTable)
+                {
+                    formatter.Serialize(fs, rawMaterial);
+                }
+            }
         }
     }
 }

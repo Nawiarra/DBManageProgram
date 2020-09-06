@@ -21,13 +21,8 @@ namespace ProductsCore
 
             Price = price;
         }
-        public static bool operator >(Furniture furniture1, Furniture furniture2)
+        public Furniture()
         {
-            return furniture1.Price > furniture2.Price;
-        }
-        public static bool operator <(Furniture furniture1, Furniture furniture2)
-        {
-            return furniture1.Price < furniture2.Price;
         }
 
         public override string ToString()
@@ -35,36 +30,24 @@ namespace ProductsCore
             return $"{Name} from {Manufacturer}, that cost {Price}";
         }
 
+        public override int CompareTo(object obj)
+        {
+            Furniture furniture = obj as Furniture;
+
+            if (furniture != null)
+            {
+                return this.Price.CompareTo(furniture.Price);
+            }
+            else
+            {
+                throw new Exception("can't compare");
+                }
+        }
+
         public override bool isFurniture()
         {
             return true;
         }
 
-        public override bool Serialize()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, this);
-
-                return true;
-            }
-        }
-
-        public static List<Furniture> Deserialize()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            List<Furniture> furnitureTable = new List<Furniture>();
-
-            using (FileStream fs = new FileStream("furniture.dat", FileMode.OpenOrCreate))
-            {
-                furnitureTable.Add((Furniture)formatter.Deserialize(fs));
-
-                return furnitureTable;
-            }
-
-        }
     }
 }
