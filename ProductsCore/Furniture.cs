@@ -13,13 +13,21 @@ namespace ProductsCore
     {
         public string Manufacturer { get; private set; }
 
-        public Furniture(string name, string manufacturer, decimal price)
+        public Furniture(string name, string manufacturer, float price)
         {
             Name = name;
 
             Manufacturer = manufacturer;
 
             Price = price;
+        }
+        public static bool operator >(Furniture furniture1, Furniture furniture2)
+        {
+            return furniture1.Price > furniture2.Price;
+        }
+        public static bool operator <(Furniture furniture1, Furniture furniture2)
+        {
+            return furniture1.Price < furniture2.Price;
         }
 
         public override string ToString()

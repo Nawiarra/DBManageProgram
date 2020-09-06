@@ -54,7 +54,7 @@ namespace ProductsCore
 
         public string Size { get; private set; }
 
-        public RawMaterial(string name, float width, float height, float thickness, decimal price)
+        public RawMaterial(string name, float width, float height, float thickness, float price)
         {
             Name = name;
 
@@ -67,6 +67,14 @@ namespace ProductsCore
             Price = price;
         }
 
+        public static bool operator >(RawMaterial rawMaterial1, RawMaterial rawMaterial2)
+        {
+            return rawMaterial1.Price > rawMaterial2.Price;
+        }
+        public static bool operator <(RawMaterial rawMaterial1, RawMaterial rawMaterial2)
+        {
+            return rawMaterial1.Price < rawMaterial2.Price;
+        }
         public override string ToString()
         {
             return $"{Name} that is {Width}x{Height}x{Thickness}, that cost {Price}";

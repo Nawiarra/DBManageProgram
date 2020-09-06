@@ -11,7 +11,7 @@ namespace ProductsCore
     {
         public string Name { get; protected set; }
 
-        public decimal Price { get; protected set; }
+        public float Price { get; protected set; }
 
         public abstract bool isFurniture();
 
